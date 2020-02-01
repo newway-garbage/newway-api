@@ -1,5 +1,6 @@
-package com.newway.newwayapi.project;
+package com.newway.newwayapi.repository;
 
+import com.newway.newwayapi.model.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
