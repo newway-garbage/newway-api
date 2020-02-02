@@ -2,6 +2,7 @@ package com.newway.newwayapi.web.rest;
 
 import com.newway.newwayapi.model.Developer;
 import com.newway.newwayapi.repository.DeveloperRepository;
+import com.newway.newwayapi.service.DeveloperService;
 import com.newway.newwayapi.web.rest.errors.BadRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,19 +23,18 @@ import static com.newway.newwayapi.util.PaginationUtil.generatePaginationHttpHea
 
 @RestController
 @RequestMapping("v1/developers")
-public class DeveloperController {
+public class DeveloperResource {
 
     @Autowired
     private DeveloperRepository developerRepository;
 
+    @Autowired
+    private DeveloperService developerService;
+
     @PostMapping
     public ResponseEntity<Developer> createDeveloper(@RequestBody Developer developer) throws URISyntaxException {
-        if (developer.getId() != null) {
-            throw new RuntimeException("Already have an ID");
-        }
-
-        Developer p = developerRepository.save(developer);
-        return ResponseEntity.created(new URI("v1/developers/" + p.getId())).body(p);
+        Developer d = developerService.createDeveloper(developer);
+        return ResponseEntity.created(new URI("v1/developers/" + d.getId())).body(d);
     }
 
     @GetMapping
@@ -48,8 +48,8 @@ public class DeveloperController {
 
     @GetMapping("{id}")
     public ResponseEntity<Developer> readDeveloper(@PathVariable Long id) {
-        Optional<Developer> todo = developerRepository.findById(id);
-        return todo.map(response -> ResponseEntity.ok().body(response))
+        Optional<Developer> developer = developerRepository.findById(id);
+        return developer.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

@@ -22,7 +22,7 @@ import static com.newway.newwayapi.util.PaginationUtil.generatePaginationHttpHea
 
 @RestController
 @RequestMapping("v1/questions")
-public class QuestionController {
+public class QuestionResource {
 
     @Autowired
     private QuestionRepository questionRepository;
@@ -33,8 +33,8 @@ public class QuestionController {
             throw new RuntimeException("Already have an ID");
         }
 
-        Question p = questionRepository.save(question);
-        return ResponseEntity.created(new URI("v1/questions/" + p.getId())).body(p);
+        Question q = questionRepository.save(question);
+        return ResponseEntity.created(new URI("v1/questions/" + q.getId())).body(q);
     }
 
     @GetMapping
@@ -48,8 +48,8 @@ public class QuestionController {
 
     @GetMapping("{id}")
     public ResponseEntity<Question> readQuestion(@PathVariable Long id) {
-        Optional<Question> todo = questionRepository.findById(id);
-        return todo.map(response -> ResponseEntity.ok().body(response))
+        Optional<Question> question = questionRepository.findById(id);
+        return question.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

@@ -17,7 +17,6 @@ public class Comment extends AbstractEntity {
     @Column(nullable = false)
     private String comment;
     @ManyToOne
-    @Column(nullable = false)
     private Developer developer;
     @OneToMany
     private List<Vote> votes;

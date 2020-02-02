@@ -1,7 +1,7 @@
 package com.newway.newwayapi.web.rest;
 
-import com.newway.newwayapi.model.Project;
-import com.newway.newwayapi.repository.ProjectRepository;
+import com.newway.newwayapi.model.Vote;
+import com.newway.newwayapi.repository.VoteRepository;
 import com.newway.newwayapi.web.rest.errors.BadRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,50 +21,50 @@ import java.util.Optional;
 import static com.newway.newwayapi.util.PaginationUtil.generatePaginationHttpHeaders;
 
 @RestController
-@RequestMapping("v1/projects")
-public class ProjectController {
+@RequestMapping("v1/votes")
+public class VoteResource {
 
     @Autowired
-    private ProjectRepository projectRepository;
+    private VoteRepository voteRepository;
 
     @PostMapping
-    public ResponseEntity<Project> createProject(@RequestBody Project project) throws URISyntaxException {
-        if (project.getId() != null) {
+    public ResponseEntity<Vote> createVote(@RequestBody Vote vote) throws URISyntaxException {
+        if (vote.getId() != null) {
             throw new RuntimeException("Already have an ID");
         }
 
-        Project p = projectRepository.save(project);
-        return ResponseEntity.created(new URI("v1/projects/" + p.getId())).body(p);
+        Vote v = voteRepository.save(vote);
+        return ResponseEntity.created(new URI("v1/votes/" + v.getId())).body(v);
     }
 
     @GetMapping
-    public ResponseEntity<List<Project>> readProjects(Pageable pageable, @RequestParam MultiValueMap<String,
+    public ResponseEntity<List<Vote>> readVotes(Pageable pageable, @RequestParam MultiValueMap<String,
             String> queryParams, UriComponentsBuilder uriBuilder) {
-        Page<Project> page = projectRepository.findAll(pageable);
-        uriBuilder.path("v1/projects/");
+        Page<Vote> page = voteRepository.findAll(pageable);
+        uriBuilder.path("v1/votes/");
         HttpHeaders headers = generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Project> readProject(@PathVariable Long id) {
-        Optional<Project> todo = projectRepository.findById(id);
-        return todo.map(response -> ResponseEntity.ok().body(response))
+    public ResponseEntity<Vote> readVote(@PathVariable Long id) {
+        Optional<Vote> vote = voteRepository.findById(id);
+        return vote.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Project> updateProject(@RequestBody Project project) {
-        if (project.getId() == null) {
+    public ResponseEntity<Vote> updateVote(@RequestBody Vote vote) {
+        if (vote.getId() == null) {
             throw new BadRequest("Invalid ID: Null");
         }
-        Project result = projectRepository.save(project);
+        Vote result = voteRepository.save(vote);
         return ResponseEntity.ok().body(result);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
-        projectRepository.deleteById(id);
+    public ResponseEntity<Void> deleteVote(@PathVariable Long id) {
+        voteRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 

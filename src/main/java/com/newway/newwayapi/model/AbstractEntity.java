@@ -3,6 +3,7 @@ package com.newway.newwayapi.model;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
@@ -24,5 +25,12 @@ public abstract class AbstractEntity implements Serializable {
 
     @LastModifiedDate
     private Instant updatedDate = Instant.now();
+
+    @CreatedBy
+    private String createdBy;
+
+    @LastModifiedBy
+    private String lastModifiedBy;
+
 
 }

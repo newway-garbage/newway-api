@@ -1,7 +1,7 @@
 package com.newway.newwayapi.web.rest;
 
-import com.newway.newwayapi.model.Tag;
-import com.newway.newwayapi.repository.TagRepository;
+import com.newway.newwayapi.model.Comment;
+import com.newway.newwayapi.repository.CommentRepository;
 import com.newway.newwayapi.web.rest.errors.BadRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,50 +21,50 @@ import java.util.Optional;
 import static com.newway.newwayapi.util.PaginationUtil.generatePaginationHttpHeaders;
 
 @RestController
-@RequestMapping("v1/tags")
-public class TagController {
+@RequestMapping("v1/comments")
+public class CommentResource {
 
     @Autowired
-    private TagRepository tagRepository;
+    private CommentRepository commentRepository;
 
     @PostMapping
-    public ResponseEntity<Tag> createTag(@RequestBody Tag tag) throws URISyntaxException {
-        if (tag.getId() != null) {
+    public ResponseEntity<Comment> createComment(@RequestBody Comment comment) throws URISyntaxException {
+        if (comment.getId() != null) {
             throw new RuntimeException("Already have an ID");
         }
 
-        Tag p = tagRepository.save(tag);
-        return ResponseEntity.created(new URI("v1/tags/" + p.getId())).body(p);
+        Comment c = commentRepository.save(comment);
+        return ResponseEntity.created(new URI("v1/comments/" + c.getId())).body(c);
     }
 
     @GetMapping
-    public ResponseEntity<List<Tag>> readTags(Pageable pageable, @RequestParam MultiValueMap<String,
+    public ResponseEntity<List<Comment>> readComments(Pageable pageable, @RequestParam MultiValueMap<String,
             String> queryParams, UriComponentsBuilder uriBuilder) {
-        Page<Tag> page = tagRepository.findAll(pageable);
-        uriBuilder.path("v1/tags/");
+        Page<Comment> page = commentRepository.findAll(pageable);
+        uriBuilder.path("v1/comments/");
         HttpHeaders headers = generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Tag> readTag(@PathVariable Long id) {
-        Optional<Tag> todo = tagRepository.findById(id);
-        return todo.map(response -> ResponseEntity.ok().body(response))
+    public ResponseEntity<Comment> readComment(@PathVariable Long id) {
+        Optional<Comment> comment = commentRepository.findById(id);
+        return comment.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Tag> updateTag(@RequestBody Tag tag) {
-        if (tag.getId() == null) {
+    public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
+        if (comment.getId() == null) {
             throw new BadRequest("Invalid ID: Null");
         }
-        Tag result = tagRepository.save(tag);
+        Comment result = commentRepository.save(comment);
         return ResponseEntity.ok().body(result);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
-        tagRepository.deleteById(id);
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
+        commentRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
