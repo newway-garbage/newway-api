@@ -58,8 +58,8 @@ public class QuestionResource {
         if (question.getId() == null) {
             throw new BadRequest("Invalid ID: Null");
         }
-        Question result = questionRepository.save(question);
-        return ResponseEntity.ok().body(result);
+        Question q = questionRepository.save(question);
+        return ResponseEntity.ok().body(q);
     }
 
     @DeleteMapping("{id}")

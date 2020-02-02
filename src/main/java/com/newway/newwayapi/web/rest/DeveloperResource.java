@@ -58,8 +58,8 @@ public class DeveloperResource {
         if (developer.getId() == null) {
             throw new BadRequest("Invalid ID: Null");
         }
-        Developer result = developerRepository.save(developer);
-        return ResponseEntity.ok().body(result);
+        Developer d = developerRepository.save(developer);
+        return ResponseEntity.ok().body(d);
     }
 
     @DeleteMapping("{id}")

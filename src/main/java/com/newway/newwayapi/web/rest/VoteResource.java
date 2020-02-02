@@ -58,8 +58,8 @@ public class VoteResource {
         if (vote.getId() == null) {
             throw new BadRequest("Invalid ID: Null");
         }
-        Vote result = voteRepository.save(vote);
-        return ResponseEntity.ok().body(result);
+        Vote v = voteRepository.save(vote);
+        return ResponseEntity.ok().body(v);
     }
 
     @DeleteMapping("{id}")

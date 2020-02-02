@@ -48,8 +48,8 @@ public class ProjectResource {
 
     @GetMapping("{id}")
     public ResponseEntity<Project> readProject(@PathVariable Long id) {
-        Optional<Project> todo = projectRepository.findById(id);
-        return todo.map(response -> ResponseEntity.ok().body(response))
+        Optional<Project> project = projectRepository.findById(id);
+        return project.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -58,8 +58,8 @@ public class ProjectResource {
         if (project.getId() == null) {
             throw new BadRequest("Invalid ID: Null");
         }
-        Project result = projectRepository.save(project);
-        return ResponseEntity.ok().body(result);
+        Project p = projectRepository.save(project);
+        return ResponseEntity.ok().body(p);
     }
 
     @DeleteMapping("{id}")

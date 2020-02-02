@@ -58,8 +58,8 @@ public class CommentResource {
         if (comment.getId() == null) {
             throw new BadRequest("Invalid ID: Null");
         }
-        Comment result = commentRepository.save(comment);
-        return ResponseEntity.ok().body(result);
+        Comment c = commentRepository.save(comment);
+        return ResponseEntity.ok().body(c);
     }
 
     @DeleteMapping("{id}")

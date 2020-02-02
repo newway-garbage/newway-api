@@ -58,8 +58,8 @@ public class TagResource {
         if (tag.getId() == null) {
             throw new BadRequest("Invalid ID: Null");
         }
-        Tag result = tagRepository.save(tag);
-        return ResponseEntity.ok().body(result);
+        Tag t = tagRepository.save(tag);
+        return ResponseEntity.ok().body(t);
     }
 
     @DeleteMapping("{id}")
