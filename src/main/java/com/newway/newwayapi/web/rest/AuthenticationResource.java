@@ -1,10 +1,12 @@
 package com.newway.newwayapi.web.rest;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.newway.newwayapi.model.Developer;
 import com.newway.newwayapi.security.jwt.TokenProvider;
 import com.newway.newwayapi.service.DeveloperService;
 import com.newway.newwayapi.service.dto.AuthenticationDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,7 +26,7 @@ import java.net.URISyntaxException;
 import static com.newway.newwayapi.config.Constants.AUTHORIZATION_HEADER;
 
 @RestController
-@RequestMapping("v1/auth")
+@RequestMapping("api/auth")
 public class AuthenticationResource {
 
     @Autowired
@@ -57,21 +59,11 @@ public class AuthenticationResource {
     }
 
 
+    @AllArgsConstructor
     static class JWTToken {
 
-        private String idToken;
-
-        JWTToken(String idToken) {
-            this.idToken = idToken;
-        }
-
-        @JsonProperty("token")
-        String getIdToken() {
-            return idToken;
-        }
-
-        void setIdToken(String idToken) {
-            this.idToken = idToken;
-        }
+        @Getter
+        @Setter
+        private String token;
     }
 }

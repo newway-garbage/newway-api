@@ -21,7 +21,7 @@ import java.util.Optional;
 import static com.newway.newwayapi.util.PaginationUtil.generatePaginationHttpHeaders;
 
 @RestController
-@RequestMapping("v1/tags")
+@RequestMapping("api/v1/tags")
 public class TagResource {
 
     @Autowired

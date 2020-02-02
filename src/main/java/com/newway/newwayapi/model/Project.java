@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)

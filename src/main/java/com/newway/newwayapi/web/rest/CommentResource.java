@@ -21,7 +21,7 @@ import java.util.Optional;
 import static com.newway.newwayapi.util.PaginationUtil.generatePaginationHttpHeaders;
 
 @RestController
-@RequestMapping("v1/comments")
+@RequestMapping("api/v1/comments")
 public class CommentResource {
 
     @Autowired

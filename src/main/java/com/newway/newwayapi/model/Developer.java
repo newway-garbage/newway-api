@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)

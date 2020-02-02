@@ -21,7 +21,7 @@ import java.util.Optional;
 import static com.newway.newwayapi.util.PaginationUtil.generatePaginationHttpHeaders;
 
 @RestController
-@RequestMapping("v1/projects")
+@RequestMapping("api/v1/projects")
 public class ProjectResource {
 
     @Autowired

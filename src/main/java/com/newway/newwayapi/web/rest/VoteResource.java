@@ -21,7 +21,7 @@ import java.util.Optional;
 import static com.newway.newwayapi.util.PaginationUtil.generatePaginationHttpHeaders;
 
 @RestController
-@RequestMapping("v1/votes")
+@RequestMapping("api/v1/votes")
 public class VoteResource {
 
     @Autowired
