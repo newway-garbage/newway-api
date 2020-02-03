@@ -20,7 +20,6 @@ import static com.newway.newwayapi.config.Constants.AUTHORIZATION_HEADER;
  */
 public class JWTFilter extends GenericFilterBean {
 
-
     private TokenProvider tokenProvider;
 
     public JWTFilter(TokenProvider tokenProvider) {

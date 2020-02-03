@@ -17,7 +17,6 @@ public final class Constants {
     public static final Long TOKEN_VALIDITY_IN_SECOND = 86400L;
     public static final Long TOKEN_REMEMBER_IN_SECOND = 2592000L;
 
-
     private Constants() {
     }
 }
