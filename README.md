@@ -3,7 +3,7 @@ rest api for newway application
 
 - ### Security Configuration
 
-All request allowed: `http.authorizeRequests().anyRequest().permitAll();`
+All request allowed: `http.csrf().disable().authorizeRequests().anyRequest().permitAll();`
 
 - #### Login Explanation
 

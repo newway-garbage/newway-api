@@ -3,7 +3,8 @@ package com.newway.newwayapi.web.rest;
 import com.newway.newwayapi.model.Developer;
 import com.newway.newwayapi.security.jwt.TokenProvider;
 import com.newway.newwayapi.service.DeveloperService;
-import com.newway.newwayapi.service.dto.AuthenticationDTO;
+import com.newway.newwayapi.service.dto.LoginDTO;
+import com.newway.newwayapi.service.dto.RegisterDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,20 +40,18 @@ public class AuthenticationResource {
     TokenProvider tokenProvider;
 
     @PostMapping("register")
-    public ResponseEntity<Developer> registerDeveloper(@RequestBody AuthenticationDTO authenticationDTO) throws URISyntaxException {
-        Developer developer = developerService.registerDeveloper(authenticationDTO);
+    public ResponseEntity<Developer> registerDeveloper(@RequestBody RegisterDTO registerDTO) throws URISyntaxException {
+        Developer developer = developerService.registerDeveloper(registerDTO);
         return ResponseEntity.created(new URI("v1/developers/" + developer.getId())).body(developer);
     }
 
-    @PostMapping("login")
-    public ResponseEntity<JWTToken> loginDeveloper(@RequestBody AuthenticationDTO authenticationDTO) {
-
+    @PostMapping("/login")
+    public ResponseEntity<JWTToken> loginDeveloper(@RequestBody LoginDTO loginDTO) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new
-                UsernamePasswordAuthenticationToken(authenticationDTO.getLogin(), authenticationDTO.getPassword());
-
+                UsernamePasswordAuthenticationToken(loginDTO.getLogin(), loginDTO.getPassword());
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = tokenProvider.createToken(authentication, authenticationDTO.isRememberMe());
+        String token = tokenProvider.createToken(authentication, loginDTO.isRememberMe());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + token);
         return new ResponseEntity<>(new JWTToken(token), httpHeaders, HttpStatus.OK);

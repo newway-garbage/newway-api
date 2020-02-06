@@ -5,7 +5,7 @@ import com.newway.newwayapi.model.Developer;
 import com.newway.newwayapi.repository.AuthorityRepository;
 import com.newway.newwayapi.repository.DeveloperRepository;
 import com.newway.newwayapi.security.AuthoritiesConstants;
-import com.newway.newwayapi.service.dto.AuthenticationDTO;
+import com.newway.newwayapi.service.dto.RegisterDTO;
 import com.newway.newwayapi.util.RandomUtil;
 import com.newway.newwayapi.web.rest.errors.BadRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,22 +31,22 @@ public class DeveloperService {
     @Autowired
     AuthorityRepository authorityRepository;
 
-    public Developer registerDeveloper(AuthenticationDTO authenticationDTO) {
-        if (!checkPasswordLength(authenticationDTO.getPassword())) {
+    public Developer registerDeveloper(RegisterDTO registerDTO) {
+        if (!checkPasswordLength(registerDTO.getPassword())) {
             throw new BadRequest("password length not valid.[ 6 <= password <= 34 ]");
         }
 
-        if (developerRepository.findOneByUsername(authenticationDTO.getLogin()).isPresent()) {
+        if (developerRepository.findOneByUsername(registerDTO.getUsername()).isPresent()) {
             throw new BadRequest("username already used!");
         }
-        if (developerRepository.findOneByEmail(authenticationDTO.getEmail()).isPresent()) {
+        if (developerRepository.findOneByEmail(registerDTO.getEmail()).isPresent()) {
             throw new BadRequest("email already used!");
         }
 
         Developer developer = new Developer();
-        developer.setUsername(authenticationDTO.getLogin());
-        developer.setPassword(passwordEncoder.encode(authenticationDTO.getPassword()));
-        developer.setEmail(authenticationDTO.getEmail().toLowerCase());
+        developer.setUsername(registerDTO.getUsername());
+        developer.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+        developer.setEmail(registerDTO.getEmail().toLowerCase());
         // todo changed after email activation
         developer.setActivated(true);
         developer.setActivationKey(RandomUtil.generateActivationKey());
