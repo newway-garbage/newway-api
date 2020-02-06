@@ -26,5 +26,4 @@ public class WebConfigurer {
         }
         return new CorsFilter(source);
     }
-
 }

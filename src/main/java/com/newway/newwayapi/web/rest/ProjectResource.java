@@ -24,8 +24,11 @@ import static com.newway.newwayapi.util.PaginationUtil.generatePaginationHttpHea
 @RequestMapping("api/v1/projects")
 public class ProjectResource {
 
-    @Autowired
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
+
+    public ProjectResource(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    }
 
     @PostMapping
     public ResponseEntity<Project> createProject(@RequestBody Project project) throws URISyntaxException {
