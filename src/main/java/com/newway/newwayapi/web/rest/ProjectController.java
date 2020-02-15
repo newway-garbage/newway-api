@@ -1,6 +1,6 @@
 package com.newway.newwayapi.web.rest;
 
-import com.newway.newwayapi.model.Project;
+import com.newway.newwayapi.entities.Project;
 import com.newway.newwayapi.repository.ProjectRepository;
 import com.newway.newwayapi.web.rest.errors.BadRequest;
 import org.springframework.beans.factory.annotation.Autowired;

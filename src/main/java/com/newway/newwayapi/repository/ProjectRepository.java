@@ -1,6 +1,6 @@
 package com.newway.newwayapi.repository;
 
-import com.newway.newwayapi.model.Project;
+import com.newway.newwayapi.entities.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
