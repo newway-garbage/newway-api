@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,7 @@ public class Project extends AbstractEntity {
     @Column(nullable = false)
     private String description;
     @OneToMany
-    private List<Developer> developers;
+    private List<Developer> developers = new ArrayList<>();
     @OneToMany
     @Column(nullable = false)
     private List<Tag> tags;

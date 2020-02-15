@@ -12,7 +12,6 @@ public class NewwayApiApplication implements InitializingBean {
 
     private static final Logger log = LoggerFactory.getLogger(NewwayApiApplication.class);
 
-
     private final AuthorityService authorityService;
 
     public NewwayApiApplication(AuthorityService authorityService) {
