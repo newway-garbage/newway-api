@@ -24,7 +24,6 @@ public class Developer extends AbstractEntity {
     @Column(nullable = false)
     private Boolean activated = false;
     private String activationKey;
-
     @JsonIgnore
     @ManyToMany
     @JoinTable(

@@ -18,7 +18,7 @@ public class WebConfigurer {
         config.setAllowedOrigins(Collections.singletonList("*"));
         config.setAllowedMethods(Collections.singletonList("*"));
         config.setAllowedHeaders(Collections.singletonList("*"));
-        config.setExposedHeaders(Collections.singletonList("Authorization,Link,X-zTotal-Count"));
+        config.setExposedHeaders(Collections.singletonList("Authorization,Link,X-Total-Count"));
         config.setAllowCredentials(true);
         config.setMaxAge(1800L);
         if (config.getAllowedOrigins() != null && !config.getAllowedOrigins().isEmpty()) {

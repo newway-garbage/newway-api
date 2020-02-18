@@ -1,6 +1,7 @@
 .idea/
 .mvn/
 target
+newway-api.iml
 
 # Created by https://www.gitignore.io/api/git,java,java-web,intellij
 # Edit at https://www.gitignore.io/?templates=git,java,java-web,intellij

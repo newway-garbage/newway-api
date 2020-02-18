@@ -5,15 +5,24 @@ import com.newway.newwayapi.model.Developer;
 import com.newway.newwayapi.repository.AuthorityRepository;
 import com.newway.newwayapi.repository.DeveloperRepository;
 import com.newway.newwayapi.security.AuthoritiesConstants;
+import com.newway.newwayapi.security.SecurityUtils;
+import com.newway.newwayapi.security.jwt.TokenProvider;
 import com.newway.newwayapi.service.dto.RegisterDTO;
 import com.newway.newwayapi.util.RandomUtil;
 import com.newway.newwayapi.web.rest.errors.BadRequest;
+import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -31,7 +40,13 @@ public class DeveloperService {
     @Autowired
     AuthorityRepository authorityRepository;
 
-    public Developer registerDeveloper(RegisterDTO registerDTO) {
+    @Autowired
+    AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    @Autowired
+    TokenProvider tokenProvider;
+
+    public Developer registerDeveloper(RegisterDTO registerDTO) throws RuntimeException {
         if (!checkPasswordLength(registerDTO.getPassword())) {
             throw new BadRequest("password length not valid.[ 6 <= password <= 34 ]");
         }
@@ -39,7 +54,8 @@ public class DeveloperService {
         if (developerRepository.findOneByUsername(registerDTO.getUsername()).isPresent()) {
             throw new BadRequest("username already used!");
         }
-        if (developerRepository.findOneByEmail(registerDTO.getEmail()).isPresent()) {
+        if (new EmailValidator().isValid(registerDTO.getEmail(), null)
+                && developerRepository.findOneByEmail(registerDTO.getEmail()).isPresent()) {
             throw new BadRequest("email already used!");
         }
 
@@ -57,6 +73,14 @@ public class DeveloperService {
         return developerRepository.save(developer);
     }
 
+    public String login(String login, String password, boolean rememberMe) {
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new
+                UsernamePasswordAuthenticationToken(login, password);
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return tokenProvider.createToken(authentication, rememberMe);
+    }
+
 
     private static boolean checkPasswordLength(String password) {
         return !StringUtils.isEmpty(password) &&
@@ -67,5 +91,10 @@ public class DeveloperService {
     public Developer createDeveloper(Developer developer) {
         developer.setPassword(passwordEncoder.encode(RandomUtil.generatePassword()));
         return developerRepository.save(developer);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Developer> getUserWithAuthorities() {
+        return SecurityUtils.getCurrentUserLogin().flatMap(developerRepository::findOneWithAuthoritiesByUsername);
     }
 }
