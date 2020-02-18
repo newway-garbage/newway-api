@@ -5,23 +5,25 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Project extends AbstractEntity {
+public class Question extends AbstractEntity {
 
-    @Column(nullable = false, unique = true)
-    private String name;
     @Column(nullable = false)
-    private String description;
-    @OneToMany
-    private List<Developer> developers = new ArrayList<>();
+    private String title;
+    @Column(nullable = false)
+    private String question;
     @OneToMany
     @Column(nullable = false)
     private List<Tag> tags;
+    @ManyToOne
+    private Developer developer;
+    @OneToMany
+    private List<Vote> votes;
 
 }
