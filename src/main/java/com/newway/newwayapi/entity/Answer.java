@@ -5,9 +5,8 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.List;
 
 @Entity
 @Data
@@ -17,13 +16,10 @@ public class Answer extends AbstractEntity {
     @Column(nullable = false)
     private String answer;
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Developer developer;
     @ManyToOne
     private Question question;
-    @OneToMany
-    private List<Comment> comments;
-    @OneToMany
-    private List<Vote> votes;
 
 
 }

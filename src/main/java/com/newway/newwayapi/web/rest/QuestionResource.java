@@ -2,6 +2,8 @@ package com.newway.newwayapi.web.rest;
 
 import com.newway.newwayapi.entity.Question;
 import com.newway.newwayapi.repository.QuestionRepository;
+import com.newway.newwayapi.service.QuestionService;
+import com.newway.newwayapi.service.dto.QuestionDto;
 import com.newway.newwayapi.web.rest.errors.BadRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +26,11 @@ public class QuestionResource {
 
     private final QuestionRepository questionRepository;
 
-    public QuestionResource(QuestionRepository questionRepository) {
+    private final QuestionService questionService;
+
+    public QuestionResource(QuestionRepository questionRepository, QuestionService questionService) {
         this.questionRepository = questionRepository;
+        this.questionService = questionService;
     }
 
     @PostMapping
@@ -38,8 +43,8 @@ public class QuestionResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Question>> readQuestions(Pageable pageable, UriComponentsBuilder uriBuilder) {
-        Page<Question> page = questionRepository.findAll(pageable);
+    public ResponseEntity<List<QuestionDto>> readQuestions(Pageable pageable, UriComponentsBuilder uriBuilder) {
+        Page<QuestionDto> page = questionService.readQuestions(pageable);
         uriBuilder.path("v1/questions");
         HttpHeaders headers = generatePaginationHttpHeaders(uriBuilder, page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());

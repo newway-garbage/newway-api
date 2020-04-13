@@ -3,9 +3,8 @@ package com.newway.newwayapi.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,6 +16,10 @@ public class Project extends AbstractEntity {
     @Column
     private String description;
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Developer developer;
+    @ManyToMany
+    @JoinTable(name = "project_tags", uniqueConstraints = @UniqueConstraint(columnNames = {"project_id", "tags_id"}))
+    private List<Tag> tags;
 
 }

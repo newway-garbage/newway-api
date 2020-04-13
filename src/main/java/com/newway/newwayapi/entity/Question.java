@@ -3,10 +3,7 @@ package com.newway.newwayapi.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -19,12 +16,10 @@ public class Question extends AbstractEntity {
     @Column(nullable = false)
     private String question;
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Developer developer;
-    @OneToMany
+    @ManyToMany
+    @JoinTable(name = "question_tags", uniqueConstraints = @UniqueConstraint(columnNames = {"question_id", "tags_id"}))
     private List<Tag> tags;
-    @OneToMany
-    private List<Answer> answers;
-    @OneToMany
-    private List<Vote> votes;
 
 }
