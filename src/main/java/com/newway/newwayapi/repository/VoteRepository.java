@@ -1,5 +1,6 @@
 package com.newway.newwayapi.repository;
 
+import com.newway.newwayapi.entity.Answer;
 import com.newway.newwayapi.entity.Developer;
 import com.newway.newwayapi.entity.Question;
 import com.newway.newwayapi.entity.Vote;
@@ -18,5 +19,6 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
     Optional<Vote> findByDeveloperAndQuestion(Developer developer, Question question);
 
+    Long countByAnswer(Answer answer);
 
 }
