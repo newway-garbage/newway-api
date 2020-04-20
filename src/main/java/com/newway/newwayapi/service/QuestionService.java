@@ -32,7 +32,6 @@ public class QuestionService {
     public Page<QuestionDto> readQuestions(Pageable pageable) {
         return questionRepository.findAll(pageable).map(q -> {
             QuestionDto dto = new QuestionDto();
-            dto.setId(q.getId());
             dto.setTitle(q.getTitle());
             dto.setQuestion(q.getQuestion());
             dto.setTags(q.getTags());
@@ -46,7 +45,6 @@ public class QuestionService {
     public Optional<QuestionDto> readQuestion(Long id) {
         return questionRepository.findById(id).map(q -> {
             QuestionDto dto = new QuestionDto();
-            dto.setId(q.getId());
             dto.setTitle(q.getTitle());
             dto.setQuestion(q.getQuestion());
             dto.setTags(q.getTags());

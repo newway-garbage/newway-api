@@ -35,4 +35,23 @@ public abstract class AbstractEntity implements Serializable {
     @LastModifiedBy
     private String updatedBy;
 
+    public Long getId() {
+        return id;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public Instant getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
 }
