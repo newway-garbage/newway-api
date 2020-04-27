@@ -17,6 +17,7 @@ public class QuestionDto {
     private Developer developer;
     private List<Tag> tags;
     private CommentDto commentDto;
+    private List<AnswerDto> answers;
     private Long answerNumber;
     private Long voteNumber;
 }

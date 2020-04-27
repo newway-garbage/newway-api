@@ -51,8 +51,8 @@ public class QuestionResource {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Question> readQuestion(@PathVariable Long id) {
-        Optional<Question> question = questionRepository.findById(id);
+    public ResponseEntity<QuestionDto> readQuestion(@PathVariable Long id) {
+        Optional<QuestionDto> question = questionService.readQuestion(id);
         return question.map(p -> ResponseEntity.ok().body(p)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

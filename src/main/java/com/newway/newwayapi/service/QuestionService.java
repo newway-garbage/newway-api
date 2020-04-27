@@ -1,11 +1,7 @@
 package com.newway.newwayapi.service;
 
-import com.newway.newwayapi.entity.Developer;
-import com.newway.newwayapi.entity.Question;
-import com.newway.newwayapi.entity.Vote;
 import com.newway.newwayapi.repository.AnswerRepository;
 import com.newway.newwayapi.repository.QuestionRepository;
-import com.newway.newwayapi.repository.VoteRepository;
 import com.newway.newwayapi.service.dto.QuestionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,10 +20,13 @@ public class QuestionService {
     private AnswerRepository answerRepository;
 
     @Autowired
-    private VoteRepository voteRepository;
+    private VoteService voteService;
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private AnswerService answerService;
 
     public Page<QuestionDto> readQuestions(Pageable pageable) {
         return questionRepository.findAll(pageable).map(q -> {
@@ -37,11 +36,25 @@ public class QuestionService {
             dto.setQuestion(q.getQuestion());
             dto.setTags(q.getTags());
             dto.setDeveloper(q.getDeveloper());
-            dto.setCommentDto(commentService.readCommentsByQuestion(q));
             dto.setAnswerNumber(answerRepository.countByQuestion(q));
-            dto.setVoteNumber(voteRepository.countByQuestion(q));
+            dto.setVoteNumber(voteService.countByQuestion(q));
             return dto;
         });
     }
 
+    public Optional<QuestionDto> readQuestion(Long id) {
+        return questionRepository.findById(id).map(q -> {
+            QuestionDto dto = new QuestionDto();
+            dto.setId(q.getId());
+            dto.setTitle(q.getTitle());
+            dto.setQuestion(q.getQuestion());
+            dto.setTags(q.getTags());
+            dto.setDeveloper(q.getDeveloper());
+            dto.setCommentDto(commentService.readCommentsByQuestion(q));
+            dto.setAnswers(answerService.readAnswerByQuestion(q));
+            dto.setAnswerNumber(answerRepository.countByQuestion(q));
+            dto.setVoteNumber(voteService.countByQuestion(q));
+            return dto;
+        });
+    }
 }
