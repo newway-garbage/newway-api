@@ -5,7 +5,6 @@ import com.newway.newwayapi.entity.Comment;
 import com.newway.newwayapi.entity.Question;
 import com.newway.newwayapi.repository.CommentRepository;
 import com.newway.newwayapi.service.dto.CommentDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +14,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommentService {
 
-    @Autowired
     private CommentRepository commentRepository;
+
+    public CommentService(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
+    }
 
     public CommentDto readCommentsByQuestion(Question question) {
         Page<Comment> page = commentRepository.findAllByQuestion(question, getPageable());

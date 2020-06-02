@@ -3,7 +3,6 @@ package com.newway.newwayapi.service;
 import com.newway.newwayapi.repository.AnswerRepository;
 import com.newway.newwayapi.repository.QuestionRepository;
 import com.newway.newwayapi.service.dto.QuestionDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,20 +12,20 @@ import java.util.Optional;
 @Service
 public class QuestionService {
 
-    @Autowired
     private QuestionRepository questionRepository;
-
-    @Autowired
     private AnswerRepository answerRepository;
-
-    @Autowired
     private VoteService voteService;
-
-    @Autowired
     private CommentService commentService;
-
-    @Autowired
     private AnswerService answerService;
+
+    public QuestionService(QuestionRepository questionRepository, AnswerRepository answerRepository,
+                           VoteService voteService, CommentService commentService, AnswerService answerService) {
+        this.questionRepository = questionRepository;
+        this.answerRepository = answerRepository;
+        this.voteService = voteService;
+        this.commentService = commentService;
+        this.answerService = answerService;
+    }
 
     public Page<QuestionDto> readQuestions(Pageable pageable) {
         return questionRepository.findAll(pageable).map(q -> {

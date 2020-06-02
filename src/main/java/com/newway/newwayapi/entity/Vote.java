@@ -16,6 +16,11 @@ import javax.persistence.*;
 })
 public class Vote extends AbstractEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vote_id_seq")
+    @SequenceGenerator(name = "vote_id_seq")
+    private Long id;
+
     @Column(nullable = false)
     private boolean up;
     @ManyToOne

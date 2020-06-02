@@ -1,11 +1,10 @@
 package com.newway.newwayapi.security;
 
-import com.newway.newwayapi.model.Developer;
+import com.newway.newwayapi.entity.Developer;
 import com.newway.newwayapi.repository.DeveloperRepository;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -27,8 +26,11 @@ public class DeveloperUserDetailsService implements UserDetailsService {
 
     private final Logger log = LoggerFactory.getLogger(DeveloperUserDetailsService.class);
 
-    @Autowired
-    DeveloperRepository developerRepository;
+    private DeveloperRepository developerRepository;
+
+    public DeveloperUserDetailsService(DeveloperRepository developerRepository) {
+        this.developerRepository = developerRepository;
+    }
 
     @Override
     @Transactional
@@ -37,13 +39,13 @@ public class DeveloperUserDetailsService implements UserDetailsService {
 
         if (new EmailValidator().isValid(login, null)) {
             return developerRepository.findOneWithAuthoritiesByEmailIgnoreCase(login)
-                    .map(user -> createSpringSecurityUser(login, user))
+                    .map(developer -> createSpringSecurityUser(login, developer))
                     .orElseThrow(() -> new UsernameNotFoundException("User with email " + login + " was not found in the database"));
         }
 
         String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
         return developerRepository.findOneWithAuthoritiesByUsername(lowercaseLogin)
-                .map(user -> createSpringSecurityUser(lowercaseLogin, user))
+                .map(developer -> createSpringSecurityUser(lowercaseLogin, developer))
                 .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the database"));
 
     }

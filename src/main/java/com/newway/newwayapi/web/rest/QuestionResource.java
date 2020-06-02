@@ -18,7 +18,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
-import static com.newway.newwayapi.utils.PaginationUtil.generatePaginationHttpHeaders;
+import static com.newway.newwayapi.util.PaginationUtil.generatePaginationHttpHeaders;
 
 @RestController
 @RequestMapping("v1/questions")

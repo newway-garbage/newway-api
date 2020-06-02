@@ -1,8 +1,7 @@
 package com.newway.newwayapi.web.rest;
 
-import com.newway.newwayapi.model.Authority;
+import com.newway.newwayapi.entity.Authority;
 import com.newway.newwayapi.repository.AuthorityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -18,11 +17,14 @@ import java.util.List;
 import static com.newway.newwayapi.util.PaginationUtil.generatePaginationHttpHeaders;
 
 @RestController
-@RequestMapping("api/v1/authorities")
+@RequestMapping("v1/authorities")
 public class AuthorityResource {
 
-    @Autowired
     private AuthorityRepository authorityRepository;
+
+    public AuthorityResource(AuthorityRepository authorityRepository) {
+        this.authorityRepository = authorityRepository;
+    }
 
     @PostMapping
     public ResponseEntity<Authority> createAuthority(@RequestBody Authority authority) throws URISyntaxException {

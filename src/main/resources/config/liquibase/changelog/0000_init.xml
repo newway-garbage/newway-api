@@ -1,0 +1,275 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="newway" id="0000">
+        <createSequence sequenceName="answer_id_seq" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="comment_id_seq" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="developer_id_seq" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="answer_id_seq" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="answer_id_seq" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="answer_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="newway" id="0001">
+
+        <createTable tableName="answer">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="answer_pkey"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="updated_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="answer" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="developer_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="question_id" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="authority">
+            <column name="name" type="VARCHAR(50)">
+                <constraints primaryKey="true" primaryKeyName="authority_pkey"/>
+            </column>
+        </createTable>
+        <createTable tableName="comment">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="comment_pkey"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="updated_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="comment" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="answer_id" type="BIGINT"/>
+            <column name="developer_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="question_id" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="developer">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="developer_pkey"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="updated_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="activated" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activation_key" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(34)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="developer_authorities">
+            <column name="developer_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="developer_authorities_pkey"/>
+            </column>
+            <column name="authority_name" type="VARCHAR(50)">
+                <constraints primaryKey="true" primaryKeyName="developer_authorities_pkey"/>
+            </column>
+        </createTable>
+        <createTable tableName="project">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="project_pkey"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="updated_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="developer_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="project_tags">
+            <column name="project_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tags_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="question">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="question_pkey"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="updated_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="question" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="developer_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="question_tags">
+            <column name="question_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tags_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="tag">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="tag_pkey"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="updated_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="vote">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="vote_pkey"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="updated_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="up" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="answer_id" type="BIGINT"/>
+            <column name="comment_id" type="BIGINT"/>
+            <column name="developer_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project_id" type="BIGINT"/>
+            <column name="question_id" type="BIGINT"/>
+        </createTable>
+
+        <addUniqueConstraint columnNames="name" constraintName="uk_1wdpsed5kna2y38hnbgrnhi5b" tableName="tag"/>
+        <addUniqueConstraint columnNames="username" constraintName="uk_7he3e2kpo85x20u5oefpkddt8"
+                             tableName="developer"/>
+        <addUniqueConstraint columnNames="email" constraintName="uk_chmq1wdfnhjthxo65affwdnky" tableName="developer"/>
+        <addUniqueConstraint columnNames="developer_id, question_id" constraintName="ukd3j1bhl6ggaj8j7bjca9a9lxg"
+                             tableName="vote"/>
+        <addUniqueConstraint columnNames="developer_id, answer_id" constraintName="ukjypmin800349wj41nj5vn9rk0"
+                             tableName="vote"/>
+        <addUniqueConstraint columnNames="project_id, tags_id" constraintName="ukk1ncy3d3j7etscw1pf15hvce9"
+                             tableName="project_tags"/>
+        <addUniqueConstraint columnNames="developer_id, comment_id" constraintName="ukkayv63q99xqwyr0je2bi0ed51"
+                             tableName="vote"/>
+        <addUniqueConstraint columnNames="question_id, tags_id" constraintName="ukn0pdx8osgs2s2uwn8tqw8mqri"
+                             tableName="question_tags"/>
+        <addUniqueConstraint columnNames="developer_id, project_id" constraintName="ukqihu9fdt5kd0kv9chsrr26cna"
+                             tableName="vote"/>
+        <addForeignKeyConstraint baseColumnNames="developer_id" baseTableName="vote"
+                                 constraintName="fk22ia2i67ismu804fdvw0vj43b" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="developer" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="developer_id" baseTableName="developer_authorities"
+                                 constraintName="fk2q583d7b51n0xvqjrn2w04lcy" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="developer" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="vote"
+                                 constraintName="fk4n24tk4fshw5eaoiqvjvi3vj0" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="question" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="developer_id" baseTableName="question"
+                                 constraintName="fk6m9pi3cl9nwccdyr8efp0l2ix" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="developer" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="comment"
+                                 constraintName="fk7e8oxffbryj1h60f1mqggxqut" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="question" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="developer_id" baseTableName="comment"
+                                 constraintName="fk7enltrctms97x7t6nx084xndw" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="developer" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="answer"
+                                 constraintName="fk8frr4bcabmmeyyu60qt7iiblo" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="question" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="developer_id" baseTableName="project"
+                                 constraintName="fk8xh0tsa4pmua4ueqx37py6fv6" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="developer" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="answer_id" baseTableName="vote"
+                                 constraintName="fka3aku0wi48fisg9cwprvmhy76" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="answer" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="authority_name" baseTableName="developer_authorities"
+                                 constraintName="fkcn7ux3f4c707v6yoe4hcp0qc0" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="name" referencedTableName="authority" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="answer_id" baseTableName="comment"
+                                 constraintName="fkdqc83j2n6hemidegfkim17d3l" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="answer" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="developer_id" baseTableName="answer"
+                                 constraintName="fkevpysgf5uqgtxc1brvj9btyw5" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="developer" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="question_tags"
+                                 constraintName="fkf76giw3qwi7ooxeims83jp29k" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="question" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="project_tags"
+                                 constraintName="fkfvy64usu7e9x7ev6obh91q0qe" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="project" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="tags_id" baseTableName="question_tags"
+                                 constraintName="fkgs9vxcbqngkcv0ow6leux7erp" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="tag" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="vote"
+                                 constraintName="fkgvxmn6n3g7nsa79x2yf5v0c84" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="project" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="tags_id" baseTableName="project_tags"
+                                 constraintName="fkl7ukpu2t0cd2rlc8bl5o7igtw" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="tag" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="comment_id" baseTableName="vote"
+                                 constraintName="fkpx8u9rivrirg53lsdcqvi90qo" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="comment" validate="true"/>
+        <loadData
+                file="config/liquibase/data/developer.csv"
+                separator=";"
+                tableName="developer">
+            <column name="id" type="numeric"/>
+            <column name="activated" type="boolean"/>
+            <column name="created_date" type="timestamp"/>
+        </loadData>
+        <loadData
+                file="config/liquibase/data/authority.csv"
+                separator=";"
+                tableName="authority">
+            <column name="name" type="string"/>
+        </loadData>
+        <loadData
+                file="config/liquibase/data/developer_authorities.csv"
+                separator=";"
+                tableName="developer_authorities">
+            <column name="developer_id" type="numeric"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

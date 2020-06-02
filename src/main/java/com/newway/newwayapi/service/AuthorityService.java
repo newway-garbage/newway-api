@@ -1,7 +1,7 @@
 package com.newway.newwayapi.service;
 
 import com.newway.newwayapi.NewwayApiApplication;
-import com.newway.newwayapi.model.Authority;
+import com.newway.newwayapi.entity.Authority;
 import com.newway.newwayapi.repository.AuthorityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.newway.newwayapi.security.AuthoritiesConstants.ADMIN;
-import static com.newway.newwayapi.security.AuthoritiesConstants.USER;
+import static com.newway.newwayapi.security.AuthoritiesConstants.DEVELOPER;
 
 @Service
 public class AuthorityService {
@@ -31,7 +31,7 @@ public class AuthorityService {
             a.setName(ADMIN);
             authorities.add(a);
             a = new Authority();
-            a.setName(USER);
+            a.setName(DEVELOPER);
             authorities.add(a);
             authorityRepository.saveAll(authorities);
         } catch (Exception e) {

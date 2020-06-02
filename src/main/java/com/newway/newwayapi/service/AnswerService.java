@@ -4,7 +4,6 @@ import com.newway.newwayapi.entity.Answer;
 import com.newway.newwayapi.entity.Question;
 import com.newway.newwayapi.repository.AnswerRepository;
 import com.newway.newwayapi.service.dto.AnswerDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,14 +15,15 @@ import java.util.List;
 @Service
 public class AnswerService {
 
-    @Autowired
     private AnswerRepository answerRepository;
-
-    @Autowired
     private CommentService commentService;
-
-    @Autowired
     private VoteService voteService;
+
+    public AnswerService(AnswerRepository answerRepository, CommentService commentService, VoteService voteService) {
+        this.answerRepository = answerRepository;
+        this.commentService = commentService;
+        this.voteService = voteService;
+    }
 
     public List<AnswerDto> readAnswerByQuestion(Question question) {
         Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.ASC, "createdDate"));

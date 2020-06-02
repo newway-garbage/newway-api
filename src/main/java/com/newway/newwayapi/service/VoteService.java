@@ -3,14 +3,16 @@ package com.newway.newwayapi.service;
 import com.newway.newwayapi.entity.Answer;
 import com.newway.newwayapi.entity.Question;
 import com.newway.newwayapi.repository.VoteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VoteService {
 
-    @Autowired
     private VoteRepository voteRepository;
+
+    public VoteService(VoteRepository voteRepository) {
+        this.voteRepository = voteRepository;
+    }
 
     public Long countByQuestion(Question question) {
         long upCount = voteRepository.countByQuestionAndUp(question, true);

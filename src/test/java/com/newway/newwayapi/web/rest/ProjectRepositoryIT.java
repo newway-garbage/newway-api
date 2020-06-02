@@ -1,8 +1,8 @@
 package com.newway.newwayapi.web.rest;
 
-import com.newway.newwayapi.model.Developer;
-import com.newway.newwayapi.model.Project;
-import com.newway.newwayapi.model.Tag;
+import com.newway.newwayapi.entity.Developer;
+import com.newway.newwayapi.entity.Project;
+import com.newway.newwayapi.entity.Tag;
 import com.newway.newwayapi.repository.ProjectRepository;
 import com.newway.newwayapi.util.RandomUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,11 +32,7 @@ public class ProjectRepositoryIT {
     private static final String DEV_PASSWORD = "12341234";
 
     private static final String TAG_NAME = "java";
-
-    @Autowired
     private ProjectRepository projectRepository;
-
-    @Autowired
     private EntityManager em;
 
     private MockMvc restMockMvc;
@@ -61,7 +57,6 @@ public class ProjectRepositoryIT {
         Tag t2 = createTagEntity();
         Tag t3 = createTagEntity();
 
-        project.setDevelopers(Arrays.asList(d1, d2));
         project.setTags(Arrays.asList(t1, t2, t3));
 
         return project;
@@ -90,7 +85,6 @@ public class ProjectRepositoryIT {
     @Transactional
     public void createProject() throws Exception {
         int projectSize = projectRepository.findAll().size();
-        int devSize = project.getDevelopers().size();
         int tagSize = project.getTags().size();
 
         Project project = createProjectEntity();
@@ -105,7 +99,6 @@ public class ProjectRepositoryIT {
         Project tp = projects.get(projects.size() - 1);
         assertThat(tp.getName()).isEqualTo(project.getName());
         assertThat(tp.getDescription()).isEqualTo(project.getDescription());
-        assertThat(tp.getDevelopers().size()).isEqualTo(devSize);
         assertThat(tp.getTags().size()).isEqualTo(tagSize);
     }
 }

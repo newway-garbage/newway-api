@@ -2,7 +2,6 @@ package com.newway.newwayapi.config;
 
 import com.newway.newwayapi.security.jwt.JWTConfigurer;
 import com.newway.newwayapi.security.jwt.TokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,11 +16,13 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    TokenProvider tokenProvider;
+    private TokenProvider tokenProvider;
+    private CorsFilter corsFilter;
 
-    @Autowired
-    CorsFilter corsFilter;
+    public SecurityConfiguration(TokenProvider tokenProvider, CorsFilter corsFilter) {
+        this.tokenProvider = tokenProvider;
+        this.corsFilter = corsFilter;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

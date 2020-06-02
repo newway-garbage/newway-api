@@ -11,6 +11,11 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Project extends AbstractEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_id_seq")
+    @SequenceGenerator(name = "project_id_seq")
+    private Long id;
+
     @Column(nullable = false)
     private String name;
     @Column

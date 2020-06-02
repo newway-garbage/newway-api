@@ -1,6 +1,6 @@
 package com.newway.newwayapi.web.rest;
 
-import com.newway.newwayapi.model.Developer;
+import com.newway.newwayapi.entity.Developer;
 import com.newway.newwayapi.service.DeveloperService;
 import com.newway.newwayapi.service.dto.LoginDTO;
 import com.newway.newwayapi.service.dto.RegisterDTO;
@@ -8,7 +8,6 @@ import com.newway.newwayapi.web.rest.errors.AccountResourceException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +19,14 @@ import java.net.URISyntaxException;
 import static com.newway.newwayapi.config.Constants.AUTHORIZATION_HEADER;
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("auth")
 public class AuthenticationResource {
 
-    @Autowired
-    DeveloperService developerService;
+    private DeveloperService developerService;
+
+    public AuthenticationResource(DeveloperService developerService) {
+        this.developerService = developerService;
+    }
 
     @PostMapping("register")
     public ResponseEntity<Developer> registerDeveloper(@RequestBody RegisterDTO registerDTO) throws URISyntaxException, RuntimeException {
